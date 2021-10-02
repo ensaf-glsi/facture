@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ids.entity.Article;
@@ -21,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 public class JdbcArticleRepository {
 
 	private final Database database;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 //	public JdbcArticleRepository(Database database) {
 //		this.database = database;
@@ -34,6 +38,7 @@ public class JdbcArticleRepository {
 
 	public void update(Article article) {
 		String sql = "update article set designation = ?, pu = ?, unite = ? where id = ?";
+//		jdbcTemplate.update(sql, new Object[] { article.getDesignation(), article.getPu(), article.getUnite(), article.getId() });
 		database.execute(sql,
 				new Object[] { article.getDesignation(), article.getPu(), article.getUnite(), article.getId() });
 

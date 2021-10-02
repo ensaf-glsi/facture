@@ -11,22 +11,33 @@ import java.util.List;
 import java.util.Properties;
 import java.util.function.Function;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import lombok.Cleanup;
 
 @Component
 public class Database {
-	public final static String DB_URL = "jdbc:postgresql://localhost/facture";
-	public final static String DB_USER = "postgres";
-	public final static String DB_PASSWORD = "postgres";
+//	public final static String DB_URL = "jdbc:postgresql://localhost/facture";
+//	public final static String DB_USER = "postgres";
+//	public final static String DB_PASSWORD = "postgres";
 	
-	public Connection getConnection() throws SQLException {
+	@Autowired
+	private DataSource dataSource;
+	
+	public Connection getConnection() {
 //        Class.forName("org.postgresql.Driver");
-		Properties props = new Properties();
-		props.setProperty("user", DB_USER);
-		props.setProperty("password", DB_PASSWORD);
-		return DriverManager.getConnection(DB_URL, props);
+//		Properties props = new Properties();
+//		props.setProperty("user", DB_USER);
+//		props.setProperty("password", DB_PASSWORD);
+//		return DriverManager.getConnection(DB_URL, props);
+		try {
+			return dataSource.getConnection();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	

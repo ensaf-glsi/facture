@@ -6,6 +6,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/*
+
+	create table article (
+		id varchar(100) PRIMARY key,
+		designation varchar(255),
+		pu DECIMAL,
+		unite varchar(60)
+	);
+ */
 @Builder
 @Data
 @EqualsAndHashCode(of = "id")
