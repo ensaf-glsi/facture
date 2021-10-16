@@ -5,26 +5,23 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import com.ids.support.jpa.CustomAbstractPersistable;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-@Data
-@EqualsAndHashCode(of = "id")
-public class Client {
+@Getter @Setter @ToString
+public class Client extends CustomAbstractPersistable<Long> {
 	
-	@Id
-	@GeneratedValue
-	private Long id;
 	private String nom;
 	@Column(unique = true)
 	private String ice;
@@ -44,5 +41,10 @@ public class Client {
 	       @AttributeOverride(name="codePostal", column=@Column(name = "cp_fact"))
 	 })
 	private Adresse adresseFacturation;
+	
+	
+//	public Client(Long id) {
+//		setId(id);
+//	}
 
 }

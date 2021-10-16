@@ -2,27 +2,25 @@ package com.ids.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.ids.support.jpa.CustomAbstractPersistable;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "mql_article")
 
+@Getter @Setter @ToString
 @Builder
-@Data
-@EqualsAndHashCode(of = "id")
 @AllArgsConstructor @NoArgsConstructor
-public class Article {
+public class Article extends CustomAbstractPersistable<Long> {
 	
-	@Id @GeneratedValue
-	private Long id;
 	@Column(name = "desig")
 	private String designation;
 	private Double pu;
