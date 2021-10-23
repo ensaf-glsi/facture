@@ -3,11 +3,11 @@ package com.ids.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import com.ids.entity.Article;
+import com.ids.support.jpa.CutomJpaRepository;
 
-public interface ArticleRepository extends CrudRepository<Article, Long> {
+public interface ArticleRepository extends CutomJpaRepository<Article, Long> {
 
 	@Query("select a from Article a where lower(designation) like %?1%")
 	List<Article> findByDesignationContaining(String designation);

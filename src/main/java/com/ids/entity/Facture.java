@@ -29,7 +29,7 @@ public class Facture extends CustomAbstractPersistable<Long> {
 	
 	private Instant dateCreation;
 	private LocalDate dateFacturation;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Client client;
 	
 	//TODO voir cascade = persist
