@@ -19,7 +19,7 @@ import lombok.ToString;
 
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-@Getter @Setter @ToString
+@Getter @Setter
 public class Client extends CustomAbstractPersistable<Long> {
 	
 	private String nom;

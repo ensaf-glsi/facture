@@ -1,9 +1,7 @@
 package com.ids.service;
 
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,19 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ids.entity.Article;
+import com.ids.dto.FactureDto;
 import com.ids.entity.Client;
 import com.ids.entity.Facture;
-import com.ids.entity.LigneFacture;
-import com.ids.repository.ArticleRepository;
-import com.ids.repository.ClientRepository;
 import com.ids.repository.FactureRepository;
+import com.ids.support.aop.Supervision;
 
 @Transactional(readOnly = true)
 @Service
-public class FactureService {
+public class FactureService implements IFactureService {
 	
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@PersistenceContext
 	private EntityManager em;
@@ -34,19 +30,18 @@ public class FactureService {
 	@Autowired
 	private FactureRepository factureRepository;
 
-	@Autowired
-	private ArticleRepository articleRepository;
-	@Autowired
-	private ClientRepository clientRepository;
-	
-
 	public <T> Collection<T> findAllProjectedBy(Class<T> projection) {
 		return factureRepository.findAllProjectedBy(projection);
 	}
 
+	@Supervision
 	@Transactional(readOnly = false)
-	public Facture save(Facture facture) {
-		log.debug("creation de la facture : {}", facture);
+	public Facture save(FactureDto factureDto) {
+		//TODO utilisation des mappers 
+		// https://www.baeldung.com/java-performance-mapping-frameworks
+		Facture facture = new Facture();
+		facture.setClient(new Client().id(factureDto.getClientId()));
+		facture.setDateFacturation(factureDto.getDateFacturation());
 		return factureRepository.save(facture);
 	}
 
@@ -60,6 +55,7 @@ public class FactureService {
 		return factureRepository.existsById(id);
 	}
 
+	@Supervision
 	public Iterable<Facture> findAll() {
 		return factureRepository.findAll();
 	}
@@ -71,49 +67,6 @@ public class FactureService {
 	@Transactional(readOnly = false)
 	public void deleteById(Long id) {
 		factureRepository.deleteById(id);
-	}
-	
-	Long newClient() {
-		return clientRepository.save(
-				Client.builder().nom("Ahmed").ice(UUID.randomUUID().toString())
-				.email(UUID.randomUUID().toString() + "@gmail.com").build()
-		).getId();
-	}
-	
-	Long newArticle(String designation, Double pu) {
-		return articleRepository.save(
-				Article.builder().designation(designation).pu(pu).build()
-		).getId();
-	}
-
-	@Transactional(readOnly = false)
-	public void exempleTransaction() {
-		Long clientId = newClient();
-		Long p1 = newArticle("MAC", 13000.);
-		Long p2 = newArticle("Tablette", 2500.);
-		
-		Facture f1 = Facture.builder().client(new Client().id(clientId))
-				.dateFacturation(LocalDate.now())
-				.ligne(
-						LigneFacture.builder().article(new Article().id(p2))
-							.quantite(3d).pu(3200.).build())
-				.ligne(LigneFacture.builder().article(new Article().id(1000l))
-						.quantite(3d).pu(1200.).build())
-			.build();
-		System.out.println("Creation d'une facture");
-		save(f1);
-	}
-	
-	public void exTransactionAvecEm() {
-		try {
-			em.getTransaction().begin();
-			// inserts, updates or deletes
-			
-			// si condition est vrai em.getTransaction().rollback(); 
-			em.getTransaction().commit();
-		} catch (Exception ex) {
-			em.getTransaction().rollback();
-		}
 	}
 	
 }
