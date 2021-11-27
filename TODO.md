@@ -1,8 +1,9 @@
 [x] Journalisation (logback, log4j, log4j2)
 [x] Spring AOP
 [x] SpEL
-[ ] Spring web (REST API)
-[ ] Swagger
+[x] Spring web (REST API)
+[x] Swagger
+[x] Open Feign
 [ ] Spring Security
 [ ] Auditing
 [ ] Cache

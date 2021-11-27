@@ -14,11 +14,9 @@
     </encoder>
   </appender>
   
-<!--   <logger name="org.hibernate.SQL" level="debug"> -->
-<!--   	<appender-ref ref="FILE" />   -->
-<!--   </logger> -->
+  <logger name="org.hibernate.SQL" level="debug"/>
 <!--   <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" /> -->
-  <logger name="com.ids" level="trace" />
+  <logger name="com.ids" level="debug" />
 
   <root level="info">
     <appender-ref ref="STDOUT" />

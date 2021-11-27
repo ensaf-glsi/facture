@@ -25,7 +25,7 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 
-	@GetMapping(produces= {"application/json", "application/xml"})
+	@GetMapping
 	public Iterable<Article> list() {
 		return articleService.findAll();
 	}
@@ -35,7 +35,7 @@ public class ArticleController {
 //	}
 	
 	// bug Accept application/xml
-	@GetMapping(value = "/{id}", produces= {"application/json", "application/xml"})
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<Article> findById(@PathVariable Long id) {
 		Optional<Article> article = articleService.findById(id);
 		if (article.isPresent()) {
