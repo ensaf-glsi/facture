@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ids.dto.FactureDto;
 import com.ids.entity.Facture;
 import com.ids.model.FactureCriteria;
+import com.ids.projections.FactureClientProjection;
 import com.ids.service.IFactureService;
 
 @RestController
@@ -32,9 +33,9 @@ public class FactureController {
 	}
 
 	@GetMapping
-	public Iterable<Facture> list(FactureCriteria criteria) {
+	public Iterable<FactureClientProjection> list(FactureCriteria criteria) {
 		log.debug("chercher des factures : {}", criteria);
-		return factureService.findAll(criteria);
+		return factureService.findAllProjectedBy(FactureClientProjection.class);
 	}
 	
 	@GetMapping(path = "/{id}")

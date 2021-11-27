@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ids.support.jpa.CustomAbstractPersistable;
 
 import lombok.AllArgsConstructor;
@@ -29,10 +30,12 @@ public class Facture extends CustomAbstractPersistable<Long> {
 	
 	private Instant dateCreation;
 	private LocalDate dateFacturation;
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Client client;
 	
 	//TODO voir cascade = persist
+	@JsonIgnore
 	@Singular
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "facture_id")
