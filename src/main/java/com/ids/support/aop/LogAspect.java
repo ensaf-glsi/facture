@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LogAspect {
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Value("${service.error.timeout: 10000}")
 	private int serviceErrorTimeout;
@@ -40,18 +40,18 @@ public class LogAspect {
 	@Pointcut("serviceMethods() || withServiceAnnotation()")
 	public void allServiceMethods() {}
 	
-	
 	@Around("allServiceMethods()")
 	public Object logAndTimeExecution(ProceedingJoinPoint pjp) throws Throwable {
 		long start = System.currentTimeMillis();
-		String methodName = pjp.getSignature().toShortString();
+		Logger log = LoggerFactory.getLogger(pjp.getTarget().getClass());
+		String methodName = pjp.getSignature().getName();
 		try {
 			//@Before
-			log.trace("Appel de la methode : {}", methodName);
-			log.trace("Parametres : {}", Arrays.toString(pjp.getArgs()));
+			log.debug("Appel de la methode : {}", methodName);
+			log.debug("Parametres : {}", Arrays.toString(pjp.getArgs()));
 			Object retval = pjp.proceed();
 			//@AfterReturning
-			log.debug("Résultat : {}", retval);
+			log.trace("Résultat : {}", retval);
 			return retval;
 		} catch(RuntimeException e) {
 			//@AfterThrowing
@@ -64,7 +64,7 @@ public class LogAspect {
 		} finally {
 			//@After
 			long time = System.currentTimeMillis() - start;
-			log.trace("Temps exécution : {} ms", time);
+			log.debug("Temps exécution : {} ms", time);
 			if (time > serviceErrorTimeout) {
 				log.error("le service {} a depassé {} ms", methodName, serviceErrorTimeout);
 			} else if (time > serviceWarnTimeout) {

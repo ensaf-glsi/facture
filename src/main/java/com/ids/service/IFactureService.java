@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.ids.dto.FactureDto;
 import com.ids.entity.Facture;
+import com.ids.model.FactureCriteria;
 
 public interface IFactureService {
 
@@ -14,7 +15,7 @@ public interface IFactureService {
 
 	Optional<Facture> findById(Long id);
 
-	Iterable<Facture> findAll();
+	Iterable<Facture> findAll(FactureCriteria criteria);
 
 	long count();
 

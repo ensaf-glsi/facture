@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ids.dto.FactureDto;
 import com.ids.entity.Client;
 import com.ids.entity.Facture;
+import com.ids.model.FactureCriteria;
 import com.ids.repository.FactureRepository;
 import com.ids.support.aop.Supervision;
 
@@ -56,7 +57,7 @@ public class FactureService implements IFactureService {
 	}
 
 	@Supervision
-	public Iterable<Facture> findAll() {
+	public Iterable<Facture> findAll(FactureCriteria criteria) {
 		return factureRepository.findAll();
 	}
 

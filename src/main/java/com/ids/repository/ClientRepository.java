@@ -24,6 +24,12 @@ public interface ClientRepository extends CutomJpaRepository<Client, Long> {
 	<P> Collection<P> findByNomContainsIgnoreCase(String nom, 
 			Class<P> projection);
 
+	boolean existsByIdNotAndEmail(Long id, String email);
+	boolean existsByEmail(String email);
+
+	boolean existsByIdNotAndIce(Long id, String ice);
+	boolean existsByIce(String ice);
+
 //	Collection<IdNomClientDto> findByNomContainsIgnoreCase(String nom);
 //	Collection<IdNomVilleClient> findByNomContainingIgnoreCase(String nom);
 
